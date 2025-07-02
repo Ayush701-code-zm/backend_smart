@@ -1,6 +1,7 @@
 // src/app.js
 const express = require("express");
 const cors = require("cors");
+const config = require('./config/config');
 
 const app = express();
 
@@ -63,21 +64,12 @@ require("dotenv").config();
 const app = require("./src/app");
 const connectDB = require("./src/utils/database");
 
-const PORT = process.env.PORT || 3000;
+const PORT = config.port;
 
 // Connect to database
 connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`Environment: ${config.env}`);
 });
-
-// .env file example
-/*
-NODE_ENV=development
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/knowledge-base
-JWT_SECRET=your-super-secret-jwt-key-here
-JWT_EXPIRE=30d
-*/
