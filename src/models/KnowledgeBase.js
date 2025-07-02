@@ -4,14 +4,12 @@ const knowledgeBaseSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
       trim: true,
       minlength: [5, "Title must be at least 5 characters"],
       maxlength: [200, "Title cannot exceed 200 characters"],
     },
     content: {
       type: String,
-      required: [true, "Content is required"],
       trim: true,
       minlength: [10, "Content must be at least 10 characters"],
     },
@@ -22,7 +20,6 @@ const knowledgeBaseSchema = new mongoose.Schema(
     },
     organization: {
       type: String,
-      required: [true, "Organization is required"],
       enum: [
         "KHUSHII",
         "JWP",
@@ -81,7 +78,6 @@ const knowledgeBaseSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "Creator is required"],
     },
 
     status: {

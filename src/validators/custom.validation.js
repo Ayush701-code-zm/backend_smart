@@ -16,14 +16,14 @@ const objectId = (value, helpers) => {
   };
   
   const mobile = (value, helpers) => {
-    if (value.length !== 10) {
-      return helpers.message('mobile must be of 10 characters');
-    }
-    if (!value.match(/^\d+$/)) {
-      return helpers.message('mobile must contain only number');
-    }
-    return value;
-  };
+  if (value.length !== 10) {
+    return helpers.message('mobile must be of 10 characters');
+  }
+  if (!value.match(/^[6-9]\d{9}$/)) {
+    return helpers.message('mobile must be a valid 10-digit number starting with 6-9');
+  }
+  return value;
+};
   
   module.exports = {
     objectId,

@@ -4,39 +4,33 @@ const querySchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Query title is required"],
       trim: true,
       minlength: [5, "Title must be at least 5 characters"],
       maxlength: [200, "Title cannot exceed 200 characters"],
     },
     description: {
       type: String,
-      required: [true, "Query description is required"],
       trim: true,
       minlength: [10, "Description must be at least 10 characters"],
       maxlength: [2000, "Description cannot exceed 2000 characters"],
     },
     organization: {
       type: String,
-      required: [true, "Organization is required"],
       enum: ["KHUSHII", "JWP", "ANIMAL CARE", "GREEN EARTH", "EDUCATION FIRST"],
     },
     cause: {
       type: String,
-      required: [true, "Cause is required"],
       trim: true,
       maxlength: [200, "Cause cannot exceed 200 characters"],
     },
     stage: {
       type: String,
-      required: [true, "Stage is required"],
       trim: true,
       maxlength: [100, "Stage cannot exceed 100 characters"],
     },
     submittedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "Submitter is required"],
     },
     status: {
       type: String,
@@ -154,11 +148,9 @@ const querySchema = new mongoose.Schema(
         user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
-          required: true,
         },
         message: {
           type: String,
-          required: true,
           maxlength: [1000, "Comment cannot exceed 1000 characters"],
         },
         type: {
@@ -223,5 +215,3 @@ querySchema.index({ priority: 1, createdAt: -1 });
 querySchema.index({ "workflow.currentStage": 1 });
 
 module.exports = mongoose.model("Query", querySchema);
-
-const mongoose = require("mongoose");
