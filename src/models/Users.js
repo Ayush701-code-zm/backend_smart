@@ -34,7 +34,6 @@ const userSchema = new mongoose.Schema(
     },
     organization: {
       type: String,
-      enum: ["KHUSHII", "JWP", "ANIMAL CARE", "GREEN EARTH", "EDUCATION FIRST"],
       required: [true, "Organization is required"],
     },
     mobile: {

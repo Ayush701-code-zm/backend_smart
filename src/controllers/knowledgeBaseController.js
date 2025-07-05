@@ -12,7 +12,9 @@ const createKnowledgeBaseEntry = catchAsync(async (req, res) => {
     tags,
     searchKeywords,
     alternativeTitles,
-    featured
+    featured,
+    cause,
+    stage
   } = req.body;
 
   const entry = await KnowledgeBase.create({
@@ -24,6 +26,8 @@ const createKnowledgeBaseEntry = catchAsync(async (req, res) => {
     searchKeywords,
     alternativeTitles,
     featured,
+    cause,
+    stage,
     createdBy: req.user.id,
     lastUpdatedBy: req.user.id
   });
@@ -132,7 +136,9 @@ const updateKnowledgeBase = catchAsync(async (req, res) => {
     searchKeywords,
     alternativeTitles,
     status,
-    featured
+    featured,
+    cause,
+    stage
   } = req.body;
 
   const entry = await KnowledgeBase.findById(req.params.id);
@@ -158,6 +164,8 @@ const updateKnowledgeBase = catchAsync(async (req, res) => {
       alternativeTitles,
       status,
       featured,
+      cause,
+      stage,
       lastUpdatedBy: req.user.id,
       $inc: { version: 1 }
     },
@@ -198,9 +206,15 @@ const searchKnowledgeBase = catchAsync(async (req, res) => {
     status: 'published'
   };
 
-  // Only add text search if query is provided
+  // Use regex for partial matching if q is provided
   if (q && q.trim()) {
-    query.$text = { $search: q };
+    const regex = new RegExp(q, 'i');
+    query.$or = [
+      { title: regex },
+      { summary: regex },
+      { tags: { $elemMatch: regex } },
+      { searchKeywords: { $elemMatch: regex } }
+    ];
   }
 
   if (organization && organization !== 'ALL') {
@@ -213,7 +227,7 @@ const searchKnowledgeBase = catchAsync(async (req, res) => {
   }
 
   const sortOptions = q && q.trim() 
-    ? { score: { $meta: 'textScore' }, 'metrics.views': -1 }
+    ? { 'metrics.views': -1, createdAt: -1 }
     : { 'metrics.views': -1, createdAt: -1 };
 
   const entries = await KnowledgeBase.find(query)

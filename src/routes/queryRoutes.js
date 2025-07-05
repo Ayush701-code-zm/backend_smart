@@ -21,8 +21,7 @@ router.delete('/:id', validate(queryValidation.getQuery), queryController.delete
 // Query workflow operations
 router.post('/:id/answers', authorize('manager', 'admin'), validate(queryValidation.addAnswer), queryController.addAnswer);
 router.post('/:id/solution', authorize('manager', 'admin'), validate(queryValidation.provideSolution), queryController.provideSolution);
-router.patch('/:id/review', authorize('admin'), validate(queryValidation.reviewSolution), queryController.reviewSolution);
-router.post('/:id/publish', authorize('admin'), queryController.publishToKnowledgeBase);
+router.patch('/:id/review', authorize('manager', 'admin'), validate(queryValidation.reviewSolution), queryController.reviewSolution);
 
 // Comments
 router.post('/:id/comments', validate(queryValidation.addComment), queryController.addComment);

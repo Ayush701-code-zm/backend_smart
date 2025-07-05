@@ -8,11 +8,11 @@ const knowledgeBaseSchema = new mongoose.Schema(
       minlength: [5, "Title must be at least 5 characters"],
       maxlength: [200, "Title cannot exceed 200 characters"],
     },
-    content: {
+    content: [{
       type: String,
       trim: true,
       minlength: [10, "Content must be at least 10 characters"],
-    },
+    }],
     summary: {
       type: String,
       trim: true,
@@ -20,14 +20,14 @@ const knowledgeBaseSchema = new mongoose.Schema(
     },
     organization: {
       type: String,
-      enum: [
-        "KHUSHII",
-        "JWP",
-        "ANIMAL CARE",
-        "GREEN EARTH",
-        "EDUCATION FIRST",
-        "ALL",
-      ],
+      // enum: [
+      //   "KHUSHII",
+      //   "JWP",
+      //   "ANIMAL CARE",
+      //   "GREEN EARTH",
+      //   "EDUCATION FIRST",
+      //   "ALL",
+      // ],
     },
     tags: [
       {
@@ -82,7 +82,7 @@ const knowledgeBaseSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["draft", "published", "archived", "under_review"],
+      // enum: ["draft", "published", "archived", "under_review"],
       default: "published",
     },
     metrics: {
@@ -127,6 +127,17 @@ const knowledgeBaseSchema = new mongoose.Schema(
     lastUpdatedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+
+    cause: {
+      type: String,
+      trim: true,
+      maxlength: [200, "Cause cannot exceed 200 characters"],
+    },
+    stage: {
+      type: String,
+      trim: true,
+      maxlength: [100, "Stage cannot exceed 100 characters"],
     },
   },
   {

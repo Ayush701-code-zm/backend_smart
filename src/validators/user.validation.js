@@ -7,8 +7,9 @@ const createUser = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     mobile: Joi.string().required().custom(mobile),
-    role: Joi.string().required().valid('admin', 'manager', 'sales_executive'),
-    organization: Joi.string().required().valid('KHUSHII', 'JWP', 'ANIMAL CARE', 'GREEN EARTH', 'EDUCATION FIRST'),
+    role: Joi.string().required(),
+    organization: Joi.string().required(),
+    status: Joi.string().valid('active', 'inactive'),
   }),
 };
 
@@ -38,9 +39,9 @@ const updateUser = {
       name: Joi.string(),
       email: Joi.string().email(),
       mobile: Joi.string().custom(mobile),
-      role: Joi.string().valid('admin', 'manager', 'sales_executive'),
-      organization: Joi.string().valid('KHUSHII', 'JWP', 'ANIMAL CARE', 'GREEN EARTH', 'EDUCATION FIRST'),
-      status: Joi.string().valid('active', 'inactive'),
+      role: Joi.string(),
+      organization: Joi.string(),
+      status: Joi.string(),
     })
     .min(1),
 };

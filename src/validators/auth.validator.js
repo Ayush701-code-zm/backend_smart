@@ -8,7 +8,7 @@ const register = {
     name: Joi.string().required(),
     mobile: Joi.string().required().custom(mobile),
     role: Joi.string().required().valid('admin', 'manager', 'sales_executive'),
-    organization: Joi.string().required().valid('KHUSHII', 'JWP', 'ANIMAL CARE', 'GREEN EARTH', 'EDUCATION FIRST'),
+    organization: Joi.string().required(),
   }),
 };
 
@@ -19,14 +19,7 @@ const login = {
   }),
 };
 
-const refreshTokens = {
-  body: Joi.object().keys({
-    refreshToken: Joi.string().required(),
-  }),
-};
-
 module.exports = {
   register,
   login,
-  refreshTokens,
 };

@@ -36,14 +36,12 @@ module.exports = {
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
     options: {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
     },
   },
   jwt: {
     secret: envVars.JWT_SECRET,
-    refresh_secret: envVars.REFRESH_JWT_SECRET,
     accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
+    refreshSecret: envVars.REFRESH_JWT_SECRET,
     refreshExpirationDays: envVars.JWT_REFRESH_EXPIRATION_DAYS,
     resetPasswordExpirationMinutes: 10,
   },
@@ -64,4 +62,4 @@ module.exports = {
     },
     from: envVars.EMAIL_FROM,
   },
-}; 
+};

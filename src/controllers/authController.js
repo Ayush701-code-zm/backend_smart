@@ -13,7 +13,7 @@ const generateToken = (id) => {
 };
 
 const generateRefreshToken = (id) => {
-  return jwt.sign({ id }, config.jwt.refresh_secret, {
+  return jwt.sign({ id }, config.jwt.refreshSecret, {
     expiresIn: config.jwt.refreshExpirationDays + 'd',
   });
 };
@@ -93,34 +93,6 @@ const login = catchAsync(async (req, res) => {
   });
 });
 
-const refreshTokens = catchAsync(async (req, res) => {
-  const { refreshToken } = req.body;
-
-  try {
-    const payload = jwt.verify(refreshToken, config.jwt.refresh_secret);
-    const user = await User.findById(payload.id);
-
-    if (!user) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid refresh token');
-    }
-
-    const newAccessToken = generateToken(user._id);
-    const newRefreshToken = generateRefreshToken(user._id);
-
-    res.json({
-      success: true,
-      data: {
-        tokens: {
-          access: newAccessToken,
-          refresh: newRefreshToken
-        }
-      }
-    });
-  } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid refresh token');
-  }
-});
-
 const getProfile = catchAsync(async (req, res) => {
   const user = await User.findById(req.user.id);
   
@@ -165,11 +137,40 @@ const changePassword = catchAsync(async (req, res) => {
   });
 });
 
+const refreshToken = catchAsync(async (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is required');
+  }
+  let payload;
+  try {
+    payload = jwt.verify(refreshToken, config.jwt.refreshSecret);
+  } catch (err) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid or expired refresh token');
+  }
+  const user = await User.findById(payload.id);
+  if (!user) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'User not found');
+  }
+  const newAccessToken = generateToken(user._id);
+  const newRefreshToken = generateRefreshToken(user._id);
+  res.json({
+    success: true,
+    message: 'Token refreshed successfully',
+    data: {
+      tokens: {
+        access: newAccessToken,
+        refresh: newRefreshToken
+      }
+    }
+  });
+});
+
 module.exports = {
   register,
   login,
-  refreshTokens,
   getProfile,
   updateProfile,
-  changePassword
+  changePassword,
+  refreshToken
 };

@@ -1,1 +1,0 @@
-// This file has been removed as logging is not needed for now

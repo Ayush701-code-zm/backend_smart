@@ -4,8 +4,7 @@ const { objectId } = require('./custom.validation');
 const createQuery = {
   body: Joi.object().keys({
     title: Joi.string().min(5).max(200),
-    description: Joi.string().min(10).max(2000),
-    organization: Joi.string().valid('KHUSHII', 'JWP', 'ANIMAL CARE', 'GREEN EARTH', 'EDUCATION FIRST'),
+    organization: Joi.string(),
     cause: Joi.string().max(200),
     stage: Joi.string().max(100),
     tags: Joi.array().items(Joi.string())
@@ -16,12 +15,12 @@ const getQueries = {
   query: Joi.object().keys({
     page: Joi.number().integer().min(1),
     limit: Joi.number().integer().min(1).max(100),
-    status: Joi.string().valid('new', 'assigned', 'under_discussion', 'solution_provided', 'pending_review', 'approved', 'rejected', 'published', 'archived'),
-    organization: Joi.string().valid('KHUSHII', 'JWP', 'ANIMAL CARE', 'GREEN EARTH', 'EDUCATION FIRST'),
+    status: Joi.string(),
+    organization: Joi.string(),
     submittedBy: Joi.string().custom(objectId),
     search: Joi.string(),
     sortBy: Joi.string(),
-    sortOrder: Joi.string().valid('asc', 'desc')
+    sortOrder: Joi.string()
   })
 };
 
@@ -37,12 +36,11 @@ const updateQuery = {
   }),
   body: Joi.object().keys({
     title: Joi.string().min(5).max(200),
-    description: Joi.string().min(10).max(2000),
-    organization: Joi.string().valid('KHUSHII', 'JWP', 'ANIMAL CARE', 'GREEN EARTH', 'EDUCATION FIRST'),
+    organization: Joi.string(),
     cause: Joi.string().max(200),
     stage: Joi.string().max(100),
     tags: Joi.array().items(Joi.string()),
-    status: Joi.string().valid('new', 'assigned', 'under_discussion', 'solution_provided', 'pending_review', 'approved', 'rejected', 'published', 'archived')
+    status: Joi.string()
   }).min(1)
 };
 
@@ -72,11 +70,16 @@ const reviewSolution = {
     id: Joi.string().custom(objectId)
   }),
   body: Joi.object().keys({
-    status: Joi.string().valid('approved', 'rejected'),
+    action: Joi.string().valid('approve', 'reject').required(),
     editedSolution: Joi.string().max(5000),
-    adminFeedback: Joi.string().max(500),
-    approvalReason: Joi.string().max(300),
-    rejectionReason: Joi.string().max(300)
+    adminNotes: Joi.string().max(1000),
+    rejectionReason: Joi.string().max(500),
+    // Knowledge base fields (optional for approve action)
+    knowledgeBaseTitle: Joi.string().max(200),
+    summary: Joi.string().max(1000),
+    tags: Joi.array().items(Joi.string()),
+    searchKeywords: Joi.array().items(Joi.string()),
+    alternativeTitles: Joi.array().items(Joi.string())
   })
 };
 
@@ -86,7 +89,7 @@ const addComment = {
   }),
   body: Joi.object().keys({
     message: Joi.string().max(1000),
-    type: Joi.string().valid('comment', 'solution', 'review', 'approval', 'rejection').default('comment')
+    type: Joi.string().default('comment')
   })
 };
 

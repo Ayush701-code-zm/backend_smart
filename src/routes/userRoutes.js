@@ -12,7 +12,7 @@ const router = express.Router();
 // Authentication routes
 router.post('/register', validate(authValidation.register), authController.register);
 router.post('/login', validate(authValidation.login), authController.login);
-router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
+router.post('/refresh-token', authController.refreshToken);
 
 // Protected routes
 router.use(auth());
@@ -27,7 +27,7 @@ router.get('/', authorize('admin', 'manager'), userController.getAllUsers);
 router.get('/stats', authorize('admin', 'manager'), userController.getUserStats);
 router.get('/:id', authorize('admin', 'manager'), validate(userValidation.getUser), userController.getUserById);
 router.post('/', authorize('admin'), validate(userValidation.createUser), userController.createUser);
-router.patch('/:id', authorize('admin', 'manager'), validate(userValidation.updateUser), userController.updateUser);
+router.patch('/:id', authorize('admin'), validate(userValidation.updateUser), userController.updateUser);
 router.delete('/:id', authorize('admin'), validate(userValidation.deleteUser), userController.deleteUser);
 router.patch('/:id/status', authorize('admin', 'manager'), userController.updateUserStatus);
 

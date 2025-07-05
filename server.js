@@ -56,8 +56,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
-app.use("*", (req, res) => {
+// 404 handler - FIXED: Removed the problematic "*" pattern
+app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: "Route not found",
@@ -72,4 +72,4 @@ connectDB();
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${config.env}`);
-}); 
+});

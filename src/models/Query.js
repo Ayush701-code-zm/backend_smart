@@ -8,15 +8,9 @@ const querySchema = new mongoose.Schema(
       minlength: [5, "Title must be at least 5 characters"],
       maxlength: [200, "Title cannot exceed 200 characters"],
     },
-    description: {
-      type: String,
-      trim: true,
-      minlength: [10, "Description must be at least 10 characters"],
-      maxlength: [2000, "Description cannot exceed 2000 characters"],
-    },
     organization: {
       type: String,
-      enum: ["KHUSHII", "JWP", "ANIMAL CARE", "GREEN EARTH", "EDUCATION FIRST"],
+      // enum: ["KHUSHII", "JWP", "ANIMAL CARE", "GREEN EARTH", "EDUCATION FIRST"],
     },
     cause: {
       type: String,
@@ -34,17 +28,17 @@ const querySchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: [
-        "new",
-        "assigned",
-        "under_discussion",
-        "solution_provided",
-        "pending_review",
-        "approved",
-        "rejected",
-        "published",
-        "archived",
-      ],
+      // enum: [
+      //   "new",
+      //   "assigned",
+      //   "under_discussion",
+      //   "solution_provided",
+      //   "pending_review",
+      //   "approved",
+      //   "rejected",
+      //   "published",
+      //   "archived",
+      // ],
       default: "new",
     },
 
@@ -106,7 +100,7 @@ const querySchema = new mongoose.Schema(
       },
       status: {
         type: String,
-        enum: ["pending", "in_review", "approved", "rejected"],
+        // enum: ["pending", "in_review", "approved", "rejected"],
         default: "pending",
       },
       originalSolution: {
@@ -155,7 +149,7 @@ const querySchema = new mongoose.Schema(
         },
         type: {
           type: String,
-          enum: ["comment", "solution", "review", "approval", "rejection"],
+          // enum: ["comment", "solution", "review", "approval", "rejection"],
           default: "comment",
         },
         createdAt: {
@@ -167,7 +161,7 @@ const querySchema = new mongoose.Schema(
     workflow: {
       currentStage: {
         type: String,
-        enum: ["manager_review", "admin_review", "completed"],
+        // enum: ["manager_review", "admin_review", "completed"],
         default: "manager_review",
       },
       stageStartedAt: {

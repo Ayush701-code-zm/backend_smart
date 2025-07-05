@@ -56,7 +56,7 @@ const getUserById = catchAsync(async (req, res) => {
 });
 
 const createUser = catchAsync(async (req, res) => {
-  const { name, email, password, role, organization, mobile } = req.body;
+  const { name, email, password, role, organization, mobile, status } = req.body;
 
   // Check if user already exists
   const existingUser = await User.findOne({
@@ -77,7 +77,8 @@ const createUser = catchAsync(async (req, res) => {
     password: hashedPassword,
     role,
     organization,
-    mobile
+    mobile,
+    status
   });
 
   // Remove password from response
